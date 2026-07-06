@@ -139,3 +139,4 @@ Uma transação pertence a uma pessoa.
 
 Esse relacionamento será usado posteriormente para calcular os totais de receitas, despesas e saldo por pessoa.
 
+...
