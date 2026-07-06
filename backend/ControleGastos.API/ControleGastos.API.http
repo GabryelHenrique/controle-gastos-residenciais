@@ -1,6 +1,15 @@
-@ControleGastos.API_HostAddress = http://localhost:5244
+@ControleGastos_API_HostAddress = http://localhost:5244
 
-GET {{ControleGastos.API_HostAddress}}/weatherforecast/
+### Listar pessoas
+GET {{ControleGastos_API_HostAddress}}/api/pessoas
 Accept: application/json
 
-###
+
+### Cadastrar pessoa
+POST {{ControleGastos_API_HostAddress}}/api/pessoas
+Content-Type: application/json
+
+{
+  "nome": "Gabryel",
+  "dataNascimento": "1997-05-07"
+}
