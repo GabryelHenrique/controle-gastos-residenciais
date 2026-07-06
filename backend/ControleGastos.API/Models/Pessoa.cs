@@ -2,18 +2,17 @@ namespace ControleGastos.API.Models;
 
 public class Pessoa
 {
-// Aqui vamos informar ID que vai estar relacionado a pessoa - gerado pelo banco de dados com ID único.
+    // Aqui vamos informar ID que vai estar relacionado a pessoa - gerado pelo banco de dados com ID único.
     public int Id { get; set; }
 
-// Nome precisa iniciar como vazio, e não nulo. Aqui determinamos por meio da 'string.Empty'. 
+    // Nome informado pelo usuário. Iniciado como string vazia para evitar valor nulo.
     public string Nome { get; set; } = string.Empty;
 
-// Referente a data de nascimento, faço uma determinação para aceitar apenas data, pois não há necessidade da hora em data de nascimento.
+    // Referente a data de nascimento, faço uma determinação para aceitar apenas data, pois não há necessidade da hora em data de nascimento.
     public DateOnly DataNascimento { get; set; }
 
-// Optei por usar uma calculadora de idade, 
-// assim conseguimos manter o sistema atualizado imprimindo a idade correta, não ficando desatualizado e sendo necessário mudar manualmente.
- 
+// Idade sendo calculada automaticamente a partir da DataNascimento.
+// Não armazena no banco, assim evita que fique desatualizada com o tempo.
 public int Idade
 {   get
         {
@@ -30,6 +29,6 @@ public int Idade
 
         }
     }
-
+        public List<Transacao> Transacoes { get; set; } = new();
 }
 
