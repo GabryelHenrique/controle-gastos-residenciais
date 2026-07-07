@@ -47,7 +47,38 @@ public async Task<ActionResult<Pessoa>> CadastrarPessoa(CriarPessoaDto pessoaDto
     _context.Pessoas.Add(pessoa);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(ListarPessoas), new { id = pessoa.Id }, pessoa);
+    return CreatedAtAction(nameof(BuscarPessoaPorId), new { id = pessoa.Id }, pessoa);
 }
+
+[HttpDelete("{id}")]
+public async Task<ActionResult> ExcluirPessoa(int id)
+{
+    var pessoa = await _context.Pessoas.FindAsync(id);
+
+    if (pessoa == null)
+    {
+        return NotFound("Pessoa não encontrada.");
+    }
+
+    _context.Pessoas.Remove(pessoa);
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
+
+[HttpGet("{id}")]
+public async Task<ActionResult<Pessoa>> BuscarPessoaPorId(int id)
+{
+    var pessoa = await _context.Pessoas.FindAsync(id);
+
+    if (pessoa == null)
+    {
+        return NotFound("Pessoa não encontrada.");
+    }
+
+    return Ok(pessoa);
+}
+
+
 
 }

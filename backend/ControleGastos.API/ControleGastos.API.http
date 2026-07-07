@@ -9,6 +9,15 @@ Accept: application/json
 POST {{ControleGastos_API_HostAddress}}/api/pessoas
 Content-Type: application/json
 
+### Buscar pessoa por id
+GET {{ControleGastos_API_HostAddress}}/api/pessoas/1
+Accept: application/json
+
+
+### Buscar pessoa inexistente
+GET {{ControleGastos_API_HostAddress}}/api/pessoas/999
+Accept: application/json
+
 {
   "nome": "Gabryel",
   "dataNascimento": "1997-05-07"
