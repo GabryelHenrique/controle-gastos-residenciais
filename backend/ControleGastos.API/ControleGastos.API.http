@@ -21,7 +21,7 @@ POST {{ControleGastos_API_HostAddress}}/api/pessoas
 Content-Type: application/json
 
 {
-  "nome": "Lais V",
+  "nome": "Tais",
   "dataNascimento": "2010-01-01"
 }
 
@@ -37,7 +37,7 @@ Accept: application/json
 
 
 ### Excluir pessoa por id
-DELETE {{ControleGastos_API_HostAddress}}/api/pessoas/1
+DELETE {{ControleGastos_API_HostAddress}}/api/pessoas/2
 Accept: application/json
 
 
@@ -54,7 +54,7 @@ Content-Type: application/json
   "descricao": "Salário",
   "valor": 2500.00,
   "tipo": 1,
-  "pessoaId": 2
+  "pessoaId": 5
 }
 
 
@@ -66,7 +66,7 @@ Content-Type: application/json
   "descricao": "Mercado",
   "valor": 300,
   "tipo": 2,
-  "pessoaId": 1
+  "pessoaId": 5
 }
 
 
@@ -78,7 +78,7 @@ Content-Type: application/json
   "descricao": "Mesada",
   "valor": 100,
   "tipo": 1,
-  "pessoaId": 2
+  "pessoaId": 6
 }
 
 
@@ -102,7 +102,7 @@ Content-Type: application/json
   "descricao": "Teste tipo inválido",
   "valor": 100,
   "tipo": 3,
-  "pessoaId": 1
+  "pessoaId": 3
 }
 
 
