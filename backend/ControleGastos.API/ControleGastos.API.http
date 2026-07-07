@@ -1,13 +1,30 @@
 @ControleGastos_API_HostAddress = http://localhost:5244
 
+
 ### Listar pessoas
 GET {{ControleGastos_API_HostAddress}}/api/pessoas
 Accept: application/json
 
 
-### Cadastrar pessoa
+### Cadastrar pessoa maior de idade
 POST {{ControleGastos_API_HostAddress}}/api/pessoas
 Content-Type: application/json
+
+{
+  "nome": "Gabryel",
+  "dataNascimento": "1997-02-01"
+}
+
+
+### Cadastrar pessoa menor de idade
+POST {{ControleGastos_API_HostAddress}}/api/pessoas
+Content-Type: application/json
+
+{
+  "nome": "Lais V",
+  "dataNascimento": "2010-01-01"
+}
+
 
 ### Buscar pessoa por id
 GET {{ControleGastos_API_HostAddress}}/api/pessoas/1
@@ -18,15 +35,77 @@ Accept: application/json
 GET {{ControleGastos_API_HostAddress}}/api/pessoas/999
 Accept: application/json
 
+
 ### Excluir pessoa por id
 DELETE {{ControleGastos_API_HostAddress}}/api/pessoas/1
 Accept: application/json
+
 
 ### Listar transações
 GET {{ControleGastos_API_HostAddress}}/api/transacoes
 Accept: application/json
 
+
+### Cadastrar receita para maior de idade
+POST {{ControleGastos_API_HostAddress}}/api/transacoes
+Content-Type: application/json
+
 {
-  "nome": "Gabryel",
-  "dataNascimento": "1997-05-07"
+  "descricao": "Salário",
+  "valor": 2500.00,
+  "tipo": 1,
+  "pessoaId": 2
 }
+
+
+### Cadastrar despesa para maior de idade
+POST {{ControleGastos_API_HostAddress}}/api/transacoes
+Content-Type: application/json
+
+{
+  "descricao": "Mercado",
+  "valor": 300,
+  "tipo": 2,
+  "pessoaId": 1
+}
+
+
+### Tentar cadastrar receita para menor de idade
+POST {{ControleGastos_API_HostAddress}}/api/transacoes
+Content-Type: application/json
+
+{
+  "descricao": "Mesada",
+  "valor": 100,
+  "tipo": 1,
+  "pessoaId": 2
+}
+
+
+### Cadastrar despesa para menor de idade
+POST {{ControleGastos_API_HostAddress}}/api/transacoes
+Content-Type: application/json
+
+{
+  "descricao": "Lanche",
+  "valor": 25,
+  "tipo": 2,
+  "pessoaId": 2
+}
+
+
+### Tentar cadastrar transação com tipo inválido
+POST {{ControleGastos_API_HostAddress}}/api/transacoes
+Content-Type: application/json
+
+{
+  "descricao": "Teste tipo inválido",
+  "valor": 100,
+  "tipo": 3,
+  "pessoaId": 1
+}
+
+
+### Consultar totais
+GET {{ControleGastos_API_HostAddress}}/api/totais
+Accept: application/json
