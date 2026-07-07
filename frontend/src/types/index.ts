@@ -17,3 +17,10 @@ export type CriarPessoaRequest = {
   nome: string
   dataNascimento: string
 }
+
+export type CriarTransacaoRequest = {
+  descricao: string
+  valor: number
+  tipo: number
+  pessoaId: number
+}

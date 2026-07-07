@@ -33,7 +33,9 @@ function App() {
       <TransacoesSection
         pessoas={pessoas}
         transacoes={transacoes}
-      />
+        onDadosAtualizados={carregarDados}
+/>
+       
     </main>
   )
 }
