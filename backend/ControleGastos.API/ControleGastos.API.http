@@ -22,6 +22,10 @@ Accept: application/json
 DELETE {{ControleGastos_API_HostAddress}}/api/pessoas/1
 Accept: application/json
 
+### Listar transações
+GET {{ControleGastos_API_HostAddress}}/api/transacoes
+Accept: application/json
+
 {
   "nome": "Gabryel",
   "dataNascimento": "1997-05-07"
