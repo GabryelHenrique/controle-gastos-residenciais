@@ -1,0 +1,63 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+.card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.formulario {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+input,
+select,
+button {
+  padding: 10px;
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.lista li {
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.erro {
+  color: #b00020;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.botao-excluir {
+  background: #b00020;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.botao-excluir:hover {
+  opacity: 0.9;
+}
