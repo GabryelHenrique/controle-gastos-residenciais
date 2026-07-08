@@ -1,24 +1,28 @@
 # Controle de Gastos Residenciais - Back-end
 
-Este projeto é o back-end de uma aplicação para controle de gastos residenciais.  
-A API permite cadastrar pessoas, registrar receitas e despesas, consultar totais financeiros e aplicar regras de negócio relacionadas à idade da pessoa cadastrada.
+Este README documenta a API do projeto **Controle de Gastos Residenciais**.
 
-O projeto foi desenvolvido em **C# com ASP.NET Core Web API**, utilizando **Entity Framework Core** e **SQLite** para persistência dos dados.
+O back-end foi desenvolvido com **C#**, **ASP.NET Core Web API**, **Entity Framework Core** e **SQLite**. Ele é responsável por receber as requisições do front-end, validar os dados, aplicar as regras de negócio, persistir as informações e retornar respostas em JSON.
 
 ---
 
-## Objetivo do projeto
+## Objetivo da API
 
-O objetivo da aplicação é permitir o controle financeiro de pessoas de uma residência, possibilitando:
+A API foi criada para controlar pessoas e transações financeiras de uma residência.
 
-- Cadastro de pessoas.
-- Exclusão de pessoas.
-- Cadastro de transações financeiras.
-- Listagem de pessoas e transações.
-- Consulta de totais por pessoa.
-- Consulta de totais gerais.
-- Aplicação de regras de negócio para menores de idade.
-- Persistência dos dados em banco SQLite.
+Com ela é possível:
+
+- Cadastrar pessoas
+- Listar pessoas cadastradas
+- Buscar pessoa por Id
+- Excluir pessoas
+- Cadastrar receitas e despesas
+- Listar transações
+- Buscar transação por Id
+- Consultar totais financeiros por pessoa
+- Consultar totais gerais da residência
+- Aplicar regras de negócio
+- Persistir os dados em SQLite
 
 ---
 
@@ -29,7 +33,7 @@ O objetivo da aplicação é permitir o controle financeiro de pessoas de uma re
 - .NET 10
 - Entity Framework Core
 - SQLite
-- REST Client para testes HTTP
+- REST Client para testes manuais
 - Git e GitHub
 
 ---
@@ -65,148 +69,343 @@ backend/
     ├── Program.cs
     ├── appsettings.json
     └── ControleGastos.API.csproj
+Organização da API
 
-Modelagem principal
+A estrutura do back-end foi separada por responsabilidade, evitando concentrar toda a lógica em um único arquivo.
+
+Controllers/
+→ Recebem as requisições HTTP e executam as ações da API.
+
+Models/
+→ Representam as entidades principais do sistema.
+
+Dtos/
+→ Definem os dados recebidos e retornados pela API.
+
+Data/
+→ Contém o DbContext, responsável pela comunicação com o banco.
+
+Enums/
+→ Contém valores fixos usados na aplicação, como Receita e Despesa.
+
+Essa organização foi usada para deixar o código mais claro, legível e fácil de manter.
+
+Models principais
 Pessoa
 
-A entidade Pessoa representa uma pessoa cadastrada no sistema.
+Representa uma pessoa cadastrada no sistema.
 
-Principais campos:
+Principais dados:
 
 Id
 Nome
 DataNascimento
-Idade
-Transacoes
+Idade calculada
+Transações vinculadas
 
-A idade não é armazenada diretamente no banco de dados.
-Ela é calculada automaticamente a partir da data de nascimento.
+A idade não é salva diretamente no banco.
+Ela é calculada a partir da data de nascimento, evitando que fique desatualizada com o passar do tempo.
 
-Essa decisão evita que a idade fique desatualizada com o passar do tempo.
+Transacao
 
-Transação
+Representa uma movimentação financeira vinculada a uma pessoa.
 
-A entidade Transacao representa uma movimentação financeira vinculada a uma pessoa.
-
-Principais campos:
+Principais dados:
 
 Id
-Descricao
+Descrição
 Valor
 Tipo
 PessoaId
-Pessoa
 
 Cada transação pertence a uma pessoa cadastrada.
 
-TipoTransacao
+DTOs
 
-O tipo da transação foi definido com um enum:
+DTO significa Data Transfer Object.
 
-public enum TipoTransacao
+No projeto, os DTOs foram usados para separar os dados recebidos e retornados pela API dos Models principais.
+
+DTOs criados:
+
+CriarPessoaDto
+→ Dados usados para cadastrar uma pessoa.
+
+CriarTransacaoDto
+→ Dados usados para cadastrar uma transação.
+
+TransacaoRespostaDto
+→ Dados retornados ao listar ou buscar transações.
+
+TotalPessoaDto
+→ Dados financeiros calculados para cada pessoa.
+
+ResumoTotaisDto
+→ Resumo financeiro geral da aplicação.
+
+O uso de DTOs também ajudou a evitar problemas de ciclo JSON entre entidades relacionadas.
+
+Enum de transação
+
+O tipo da transação foi definido com enum:
+
+1 = Receita
+2 = Despesa
+
+Essa decisão evita valores livres e limita os tipos aceitos pela API.
+
+Banco de dados
+
+O banco utilizado foi o SQLite.
+
+A comunicação entre a API e o banco é feita com Entity Framework Core.
+
+A string de conexão está configurada no arquivo appsettings.json:
+
 {
-    Receita = 1,
-    Despesa = 2
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=controle_gastos.db"
+  }
 }
 
-Essa escolha evita o uso de textos livres e limita os tipos possíveis de transação.
+Tabelas principais:
 
-Regras de negócio implementadas
 Pessoas
-O nome da pessoa é obrigatório.
-A data de nascimento não pode ser uma data futura.
-A idade é calculada automaticamente.
-Ao excluir uma pessoa, todas as transações vinculadas a ela também são excluídas.
+Transacoes
+
+A tabela de transações possui vínculo com a tabela de pessoas por meio do campo PessoaId.
+
+Regras de negócio
+Pessoas
+O nome é obrigatório
+A data de nascimento não pode ser futura
+O Id é gerado automaticamente
+A idade é calculada a partir da data de nascimento
+Ao excluir uma pessoa, suas transações também são excluídas
 Transações
-A descrição da transação é obrigatória.
-O valor da transação deve ser maior que zero.
-O tipo da transação deve ser Receita ou Despesa.
-A pessoa informada na transação precisa existir.
-Pessoas menores de 18 anos podem cadastrar apenas despesas.
-Pessoas maiores de idade podem cadastrar receitas e despesas.
+A descrição é obrigatória
+O valor deve ser maior que zero
+O tipo deve ser válido
+A pessoa vinculada precisa existir
+Menores de idade só podem cadastrar despesas
+Maiores de idade podem cadastrar receitas e despesas
 Totais
 
 A API calcula:
 
-Total de receitas por pessoa.
-Total de despesas por pessoa.
-Saldo por pessoa.
-Total geral de receitas.
-Total geral de despesas.
-Saldo líquido geral.
-Banco de dados
+Total de receitas por pessoa
+Total de despesas por pessoa
+Saldo por pessoa
+Total geral de receitas
+Total geral de despesas
+Saldo líquido geral
 
-O projeto utiliza SQLite como banco de dados local.
+O saldo é calculado assim:
 
-A configuração da conexão está no arquivo appsettings.json.
+Saldo = Total de Receitas - Total de Despesas
+Endpoints da API
 
-O banco é criado a partir das migrations do Entity Framework Core.   
+URL base local:
 
-Decisões técnicas
-Uso de DTOs
+http://localhost:5244
+Pessoas
+Listar pessoas
+GET /api/pessoas
 
-Foram utilizados DTOs para separar os dados recebidos e retornados pela API.
+Lista todas as pessoas cadastradas.
 
-DTOs de entrada:
+Buscar pessoa por Id
+GET /api/pessoas/{id}
 
-CriarPessoaDto
-CriarTransacaoDto
+Busca uma pessoa específica pelo Id.
 
-DTOs de saída:
+Cadastrar pessoa
+POST /api/pessoas
 
-TransacaoRespostaDto
-TotalPessoaDto
-ResumoTotaisDto
+Exemplo de requisição:
 
-Essa separação evita expor diretamente toda a estrutura dos Models e deixa as respostas da API mais organizadas.
+{
+  "nome": "Gabryel",
+  "dataNascimento": "1997-02-01"
+}
 
-Idade calculada
+Possíveis validações:
 
-A idade da pessoa é calculada automaticamente a partir da data de nascimento.
+Nome obrigatório
+Data de nascimento não pode ser futura
+Excluir pessoa
+DELETE /api/pessoas/{id}
 
-Essa abordagem evita armazenar uma idade fixa no banco de dados, já que a idade muda com o tempo.
+Exclui uma pessoa cadastrada.
 
-Uso de decimal para valores financeiros
+Ao excluir uma pessoa, as transações vinculadas a ela também são removidas.
 
-O tipo decimal foi utilizado para representar valores financeiros, pois é mais adequado para operações com dinheiro.
+Transações
+Listar transações
+GET /api/transacoes
 
-Uso de enum para tipo da transação
+Lista todas as transações cadastradas.
 
-O tipo da transação foi definido como enum para restringir os valores aceitos pela aplicação.
+Buscar transação por Id
+GET /api/transacoes/{id}
 
-Isso evita que sejam cadastrados tipos inválidos como textos livres.
+Busca uma transação específica pelo Id.
 
-Exclusão em cascata
+Cadastrar transação
+POST /api/transacoes
 
-O relacionamento entre Pessoa e Transação foi configurado para permitir que, ao excluir uma pessoa, suas transações relacionadas também sejam removidas.
+Exemplo de receita:
 
-Isso mantém a consistência dos dados.
+{
+  "descricao": "Salário",
+  "valor": 2500,
+  "tipo": 1,
+  "pessoaId": 1
+}
 
-Correção de ciclo JSON
+Exemplo de despesa:
 
-Durante o desenvolvimento, foi identificado um problema de ciclo ao retornar entidades relacionadas diretamente.
+{
+  "descricao": "Mercado",
+  "valor": 300,
+  "tipo": 2,
+  "pessoaId": 1
+}
 
-Para resolver isso, foi criado o DTO TransacaoRespostaDto, retornando apenas os dados necessários da transação.
+Tipos aceitos:
 
+1 = Receita
+2 = Despesa
+
+Possíveis validações:
+
+Descrição obrigatória
+Valor maior que zero
+Tipo válido
+Pessoa existente
+Menor de idade não pode cadastrar receita
+Totais
+Consultar totais
+GET /api/totais
+
+Retorna os totais financeiros por pessoa e o resumo geral.
+
+Exemplo de resposta:
+
+{
+  "pessoas": [
+    {
+      "pessoaId": 1,
+      "nome": "Gabryel",
+      "idade": 29,
+      "totalReceitas": 2500,
+      "totalDespesas": 300,
+      "saldo": 2200
+    }
+  ],
+  "totalGeralReceitas": 2500,
+  "totalGeralDespesas": 300,
+  "saldoLiquidoGeral": 2200
+}
+CORS
+
+Durante o desenvolvimento, o front-end e o back-end rodam em portas diferentes:
+
+Back-end: http://localhost:5244
+Front-end: http://localhost:5173
+
+Por isso, o CORS foi configurado no Program.cs para permitir que o front-end consiga acessar a API.
+
+Como executar o back-end
+
+A partir da raiz do projeto, acesse a pasta da API:
+
+cd backend/ControleGastos.API
+
+Restaure as dependências:
+
+dotnet restore
+
+Compile o projeto:
+
+dotnet build
+
+Aplique as migrations:
+
+dotnet ef database update
+
+Execute a API:
+
+dotnet run
+
+A API será executada em:
+
+http://localhost:5244
 Testes realizados
 
-Foram realizados testes manuais utilizando arquivo .http no VS Code.
+Os testes foram feitos manualmente usando requisições HTTP e também durante a integração com o front-end.
 
-Cenários testados:
+Pessoas
 
-Cadastro de pessoa maior de idade.
-Cadastro de pessoa menor de idade.
-Listagem de pessoas.
-Busca de pessoa por Id.
-Exclusão de pessoa.
-Cadastro de receita para maior de idade.
-Cadastro de despesa para maior de idade.
-Bloqueio de receita para menor de idade.
-Cadastro de despesa para menor de idade.
-Validação de pessoa inexistente.
-Validação de descrição vazia.
-Validação de valor inválido.
-Validação de tipo inválido.
-Consulta de totais por pessoa.
-Consulta de totais gerais.
-Exclusão em cascata de transações.
+Foram validados:
+
+Cadastro de pessoa maior de idade
+Cadastro de pessoa menor de idade
+Cadastro com nome vazio
+Cadastro com data futura
+Listagem de pessoas
+Busca por Id
+Exclusão de pessoa
+Tentativa de exclusão de pessoa inexistente
+Transações
+
+Foram validados:
+
+Cadastro de receita para pessoa maior de idade
+Cadastro de despesa para pessoa maior de idade
+Cadastro de despesa para pessoa menor de idade
+Bloqueio de receita para pessoa menor de idade
+Cadastro com descrição vazia
+Cadastro com valor zero
+Cadastro com valor negativo
+Cadastro com tipo inválido
+Cadastro com pessoa inexistente
+Listagem de transações
+Busca de transação por Id
+Totais
+
+Foram validados:
+
+Total de receitas por pessoa
+Total de despesas por pessoa
+Saldo por pessoa
+Total geral de receitas
+Total geral de despesas
+Saldo líquido geral
+Atualização dos totais após novos cadastros
+Atualização dos totais após exclusão de pessoa
+Exclusão em cascata
+
+Foi validado que, ao excluir uma pessoa:
+
+A pessoa é removida
+As transações vinculadas também são removidas
+Os totais são recalculados corretamente
+Status do back-end
+Back-end funcional e validado localmente.
+
+Funcionalidades concluídas:
+
+API REST criada
+Banco SQLite configurado
+Entity Framework Core configurado
+Migrations criadas e aplicadas
+Cadastro de pessoas
+Exclusão de pessoas
+Cadastro de transações
+Consulta de totais
+Regras de negócio
+Validações
+CORS para integração com o front-end
+Testes manuais concluídos
+
