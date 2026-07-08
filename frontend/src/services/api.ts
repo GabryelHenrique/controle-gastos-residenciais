@@ -2,6 +2,7 @@ import type {
     CriarPessoaRequest, 
     CriarTransacaoRequest, 
     Pessoa, 
+    ResumoTotais,
     Transacao,
 } from '../types'
 
@@ -58,4 +59,9 @@ export async function cadastrarTransacao(
     const mensagemErro = await resposta.text()
     throw new Error(mensagemErro || 'Erro ao cadastrar transação.')
   }
+}
+
+export async function buscarTotais(): Promise<ResumoTotais> {
+  const resposta = await fetch(`${API_URL}/totais`)
+  return resposta.json()
 }

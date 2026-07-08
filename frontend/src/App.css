@@ -61,3 +61,14 @@ button {
 .botao-excluir:hover {
   opacity: 0.9;
 }
+
+.resumo-geral {
+  background: white;
+  padding: 16px;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+.resumo-geral p {
+  margin: 8px 0;
+}

@@ -24,3 +24,19 @@ export type CriarTransacaoRequest = {
   tipo: number
   pessoaId: number
 }
+
+export type TotalPessoa = {
+  pessoaId: number
+  nome: string
+  idade: number
+  totalReceitas: number
+  totalDespesas: number
+  saldo: number
+}
+
+export type ResumoTotais = {
+  pessoas: TotalPessoa[]
+  totalGeralReceitas: number
+  totalGeralDespesas: number
+  saldoLiquidoGeral: number
+}
