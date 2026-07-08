@@ -29,6 +29,8 @@ public int Idade
 
         }
     }
+      
+        // Listar transações relacionadas a pessoa, e vale ressaltar que pela lógica, uma pessoa pode ter mais de uma transação vinculada.
         public List<Transacao> Transacoes { get; set; } = new();
 }
 

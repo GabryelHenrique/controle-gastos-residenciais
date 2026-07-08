@@ -6,6 +6,11 @@ import TotaisSection from './components/TotaisSection'
 import { buscarPessoas, buscarTotais, buscarTransacoes } from './services/api'
 import type { Pessoa, ResumoTotais, Transacao } from './types'
 
+
+// carregar dados principais.
+//  guardar os estados globais da tela.
+// repassar dados para os componentes
+// juntar Pessoas, Transações e Totais na página
 function App() {
   const [pessoas, setPessoas] = useState<Pessoa[]>([])
   const [transacoes, setTransacoes] = useState<Transacao[]>([])

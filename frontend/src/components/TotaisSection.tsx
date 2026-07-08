@@ -1,9 +1,13 @@
 import type { ResumoTotais } from '../types'
 
+
+// O componente Total, não vai ter responsabilidade de fazer calculos, ele apenas vai exibir os dados já calculados no backend.
+// Resumo financeiro retornado pela API.
 type TotaisSectionProps = {
   totais: ResumoTotais | null
 }
 
+// Formata os valores numéricos para a moeda brasileira (real).
 function TotaisSection({ totais }: TotaisSectionProps) {
   function formatarValor(valor: number) {
     return valor.toLocaleString('pt-BR', {

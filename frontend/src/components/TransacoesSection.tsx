@@ -2,6 +2,12 @@ import { useState, type FormEvent } from 'react'
 import { cadastrarTransacao } from '../services/api'
 import type { Pessoa, Transacao } from '../types'
 
+//Usuário preenche formulário
+//Front valida campos obrigatórios
+// Envia para API pelo service
+// API aplica regras de negócio
+// Front atualiza a tela
+
 type TransacoesSectionProps = {
   pessoas: Pessoa[]
   transacoes: Transacao[]

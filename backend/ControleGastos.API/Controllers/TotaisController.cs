@@ -20,10 +20,12 @@ public class TotaisController : ControllerBase
 [HttpGet]
 public async Task<ActionResult<ResumoTotaisDto>> ConsultarTotais()
 {
+    // Carregar pessoas junto com suas transações permitindo calcular totais.
     var pessoas = await _context.Pessoas
         .Include(p => p.Transacoes)
         .ToListAsync();
 
+    // Calcular receitas, despesas e saldo após calculos de cada pessoa.
     var totaisPorPessoa = pessoas.Select(pessoa =>
     {
         var totalReceitas = pessoa.Transacoes
@@ -45,6 +47,8 @@ public async Task<ActionResult<ResumoTotaisDto>> ConsultarTotais()
         };
     }).ToList();
 
+    
+    // Aqui entra um pensamento importante onde soma totais individuais para gerar o resumo da aplicação e pessoas com transações cadastradas.
     var totalGeralReceitas = totaisPorPessoa.Sum(p => p.TotalReceitas);
     var totalGeralDespesas = totaisPorPessoa.Sum(p => p.TotalDespesas);
 

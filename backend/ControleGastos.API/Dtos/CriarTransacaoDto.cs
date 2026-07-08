@@ -12,6 +12,6 @@ public class CriarTransacaoDto
     // Define o tipo de transação cadastrada.
     public TipoTransacao Tipo { get; set; }
 
-    // Define qual pessoa Id está cadastrando a transação.
+    // Define qual pessoa Id está cadastrando a transação, lembrando que esse Id é gerado automaticamente e salvo no banco de dados.
     public int PessoaId { get; set; }
 }

@@ -8,11 +8,13 @@ import type {
 
 const API_URL = 'http://localhost:5244/api'
 
+// Buscar todas pessoas cadastradas na API.
 export async function buscarPessoas(): Promise<Pessoa[]> {
   const resposta = await fetch(`${API_URL}/pessoas`)
   return resposta.json()
 }
 
+// Envia para a API dados necessários para um novo cadastro.
 export async function cadastrarPessoa(dados: CriarPessoaRequest): Promise<void> {
   const resposta = await fetch(`${API_URL}/pessoas`, {
     method: 'POST',
@@ -28,6 +30,7 @@ export async function cadastrarPessoa(dados: CriarPessoaRequest): Promise<void> 
   }
 }
 
+// Solicitar API exclusão de uma pessoa através do Id.
 export async function excluirPessoa(id: number): Promise<void> {
   const resposta = await fetch(`${API_URL}/pessoas/${id}`, {
     method: 'DELETE',
@@ -39,6 +42,7 @@ export async function excluirPessoa(id: number): Promise<void> {
   }
 }
 
+// Busca todas as transações cadastradas na API.
 export async function buscarTransacoes(): Promise<Transacao[]> {
   const resposta = await fetch(`${API_URL}/transacoes`)
   return resposta.json()
@@ -61,6 +65,7 @@ export async function cadastrarTransacao(
   }
 }
 
+// Busca o resumo financeiro já calculado pelo back-end.
 export async function buscarTotais(): Promise<ResumoTotais> {
   const resposta = await fetch(`${API_URL}/totais`)
   return resposta.json()

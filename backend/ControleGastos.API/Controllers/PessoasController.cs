@@ -17,6 +17,8 @@ public class PessoasController : ControllerBase
         _context = context;
     }
 
+
+// Listagem das pessoas já cadastradas.
 [HttpGet]
 public async Task<ActionResult<List<Pessoa>>> ListarPessoas()
     {
@@ -25,6 +27,8 @@ public async Task<ActionResult<List<Pessoa>>> ListarPessoas()
         return Ok(pessoas);
     }
 
+
+// Requisitos mínimos para cadastrar uma pessoa e cenários onde seria inválidos, onde retornam erros HTTP, que os dados não passam das regras.
 [HttpPost]
 public async Task<ActionResult<Pessoa>> CadastrarPessoa(CriarPessoaDto pessoaDto)
 {

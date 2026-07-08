@@ -2,21 +2,27 @@ import { useState, type FormEvent } from 'react'
 import { cadastrarPessoa, excluirPessoa } from '../services/api'
 import type { Pessoa } from '../types'
 
+
+// Props recebidas do App: lista de pessoas e função para recarregar dados após alterações feitas.
 type PessoasSectionProps = {
   pessoas: Pessoa[]
   onDadosAtualizados: () => Promise<void>
 }
 
+// Aqui entendi que precisava usar estados locais e assim controlar campos do formulário e mensagens de erro que pudessem aparecer na tela.
 function PessoasSection({ pessoas, onDadosAtualizados }: PessoasSectionProps) {
   const [nome, setNome] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
   const [erro, setErro] = useState('')
 
   async function handleCadastrarPessoa(event: FormEvent<HTMLFormElement>) {
+    
+    // Essa parte irá impedir que a página recarregue para o padrão inicial após enviar o formulário.
     event.preventDefault()
 
     setErro('')
 
+    // Validações feitas no Front para que campos obrigatórios não sejam enviados.
     if (!nome.trim()) {
       setErro('Informe o nome da pessoa.')
       return
@@ -36,6 +42,7 @@ function PessoasSection({ pessoas, onDadosAtualizados }: PessoasSectionProps) {
       setNome('')
       setDataNascimento('')
 
+      // Manter dados atualizados recarregando a tela após cadastro.
       await onDadosAtualizados()
     } catch (error) {
       if (error instanceof Error) {
@@ -46,6 +53,7 @@ function PessoasSection({ pessoas, onDadosAtualizados }: PessoasSectionProps) {
     }
   }
 
+  // Excluir uma pessoa já cadastrada e salva no banco, após confirmação do usuário.
   async function handleExcluirPessoa(id: number) {
     const confirmar = window.confirm(
       'Deseja realmente excluir essa pessoa? As transações vinculadas a ela também serão apagadas.'

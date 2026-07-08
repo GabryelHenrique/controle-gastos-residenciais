@@ -38,6 +38,7 @@ public class TransacoesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<TransacaoRespostaDto>> BuscarTransacaoPorId(int id)
     {
+        // Buscar uma transação especifica para ver somente dados que são necessários.
         var transacao = await _context.Transacoes
             .Where(transacao => transacao.Id == id)
             .Select(transacao => new TransacaoRespostaDto
@@ -58,6 +59,8 @@ public class TransacoesController : ControllerBase
         return Ok(transacao);
     }
 
+    
+    // Validar dados obrigatórios antes de criar transações.
     [HttpPost]
     public async Task<ActionResult<TransacaoRespostaDto>> CadastrarTransacao(CriarTransacaoDto transacaoDto)
     {
@@ -83,11 +86,15 @@ public class TransacoesController : ControllerBase
             return BadRequest("A pessoa informada não existe.");
         }
 
+        // Ponto importante da regra de negócio, aqui vamos validar que menores de idade só podem cadastrar despesas.
         if (pessoa.Idade < 18 && transacaoDto.Tipo == TipoTransacao.Receita)
         {
             return BadRequest("Pessoas menores de idade podem cadastrar somente despesas.");
         }
 
+        
+        // Ponto importante que após testar e validar, entrava em looping, então tive que implementar essa parte para
+        // evitar ciclo entre pessoa e transacoes. Criado o DTO de resposta.
         var transacao = new Transacao
         {
             Descricao = transacaoDto.Descricao.Trim(),

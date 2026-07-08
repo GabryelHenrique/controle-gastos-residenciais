@@ -1,3 +1,6 @@
+// Aqui vemos os tipos usados para representar dados API->Front: Ajudam TypeScript a validar formato dos dados na aplicação.
+
+
 export type Pessoa = {
   id: number
   nome: string
