@@ -46,37 +46,37 @@ O projeto foi desenvolvido com foco em:
 O objetivo da aplicação é permitir o controle financeiro de pessoas de uma residência.
 
 ## Funcionalidades implementadas
-
-- Pessoas
-Cadastro de pessoas
-Listagem de pessoas
-Busca de pessoa por Id no back-end
-Exclusão de pessoas
-Cálculo automático da idade a partir da data de nascimento
-Validação de nome obrigatório
-Validação de data de nascimento futura
-- Transações
-Cadastro de transações financeiras
-Listagem de transações
-Busca de transação por Id no back-end
-Associação de transação a uma pessoa
-Cadastro de receitas
-Cadastro de despesas
-Validação de descrição obrigatória
-Validação de valor maior que zero
-Validação de tipo da transação
-Validação de pessoa existente
-- Regras de negócio
-Pessoas menores de 18 anos podem cadastrar apenas despesas
-Pessoas maiores de idade podem cadastrar receitas e despesas
-Ao excluir uma pessoa, todas as transações vinculadas a ela também são excluídas
-Os totais são recalculados após cadastros e exclusões
-- Totais financeiros
-Total de receitas por pessoa
-Total de despesas por pessoa
-Saldo por pessoa
-Total geral de receitas
-Total geral de despesas
+ 
+## Pessoas
+- Cadastro de pessoas
+- Listagem de pessoas
+- Busca de pessoa por Id no back-end
+- Exclusão de pessoas
+- Cálculo automático da idade a partir da data de nascimento
+- Validação de nome obrigatório
+- Validação de data de nascimento futura
+## Transações
+- Cadastro de transações financeiras
+- Listagem de transações
+- Busca de transação por Id no back-end
+- Associação de transação a uma pessoa
+- Cadastro de receitas
+- Cadastro de despesas
+- Validação de descrição obrigatória
+- Validação de valor maior que zero
+- Validação de tipo da transação
+- Validação de pessoa existente
+## Regras de negócio
+- Pessoas menores de 18 anos podem cadastrar apenas despesas
+- Pessoas maiores de idade podem cadastrar receitas e despesas
+- Ao excluir uma pessoa, todas as transações vinculadas a ela também são excluídas
+- Os totais são recalculados após cadastros e exclusões
+## Totais financeiros
+- Total de receitas por pessoa
+- Total de despesas por pessoa
+- Saldo por pessoa
+- Total geral de receitas
+- Total geral de despesas
 
 ---
 
